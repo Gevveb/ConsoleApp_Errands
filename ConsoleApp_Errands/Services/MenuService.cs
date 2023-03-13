@@ -51,17 +51,17 @@ namespace ConsoleApp_Errands.Services
 
             customer.Comment = "Comment";
 
-            customer.Status = "unopened";
+            customer.Status = "not started";
 
 
-            //save customer to database
+            //Lägg till ett ärende i databasen.
             await DbService.SaveAsync(customer);
 
         }
 
         public async Task ListAllErrandsAsync()
         {
-            //get all customers+address from database
+            //Hämta alla ärenden från databasen.
             var errands = await DbService.GetAllAsync();
 
             if (errands.Any())
@@ -99,7 +99,7 @@ namespace ConsoleApp_Errands.Services
 
             if (!string.IsNullOrEmpty(email))
             {
-                //get specific customer+address from database
+                //Hämta ett specifikt ärende från databasen.
                 var errand = await DbService.GetAsync(email);
 
                 if (errand != null)
@@ -115,7 +115,6 @@ namespace ConsoleApp_Errands.Services
                     Console.WriteLine($"Admin Name: {errand.AdminFirstName}, {errand.AdminLastName}");
                     Console.WriteLine($"Creation Date: {errand.CreationDate}");
                     Console.WriteLine($"Update Date: {errand.UpdateDate}");
-                    //Console.WriteLine($"Address: {errand.AdminId}, {errand.CustomerId}");
                     Console.WriteLine($"Status: {errand.Status}");
                     Console.WriteLine("");
                 }
@@ -145,23 +144,24 @@ namespace ConsoleApp_Errands.Services
                 var customer = await DbService.GetAsync(email);
                 if (customer != null)
                 {
-                    Console.WriteLine("Skriv in information på de fält som du vill uppdatera. \n");
+                    Console.WriteLine("Enter information in the fields you want to update. \n");
 
-                    Console.Write("Add a Comment: ");
+                    Console.Write("Add a new Comment / Update Comment: ");
                     customer.Comment = Console.ReadLine() ?? "";
 
-                    Console.Write("Change Status: ");
+                    Console.WriteLine("Change Status / Update Status: ");
+                    Console.Write($"Enter 1 for \"Ongoing\" or 2 for \"Completed\": ");
                     var answer = Console.ReadLine();
                     if(answer == "1")                  
-                        customer.Status = "Opened";                    
+                        customer.Status = "Ongoing";                    
                     else if(answer == "2") 
                     {
-                        customer.Status = "Closed";
+                        customer.Status = "Completed";
                     }
                     customer.UpdateDate= new DateTime();
                         
 
-                    //update specific customer from database
+                    //Uppdatera status och lägga till kommentar på ett specifikt ärende.
                     await DbService.UpdateAsync(customer);
                 }
                 else
@@ -189,7 +189,7 @@ namespace ConsoleApp_Errands.Services
             {
                 Console.Write("Do you really want to delete the case? (y = yes/n = no)");
                 var answer = Console.ReadLine();
-                //delete specific customer from database
+                //Ta bort ett specifikt ärende från databasen.
                 switch(answer)
                 {
                     case "y":
@@ -199,72 +199,15 @@ namespace ConsoleApp_Errands.Services
                     case "n":
                         Console.WriteLine("The case is not removed: ");
                         break;
-                }
-                    
+                }                   
                 
             }
             else
             {
-                Console.WriteLine($"Ingen e-postadressen angiven.");
+                Console.WriteLine("No email address provided.");
                 Console.WriteLine("");
             }
 
         }
     }
 }
-
-
-//public async Task UpdateSpecificContactAsync()
-//{
-//    Console.Write("Ange e-postadress på kunden: ");
-//    var email = Console.ReadLine();
-
-//    if (!string.IsNullOrEmpty(email))
-//    {
-
-//        var customer = await DbService.GetAsync(email);
-//        if (customer != null)
-//        {
-//            Console.WriteLine("Skriv in information på de fält som du vill uppdatera. \n");
-
-//            Console.Write("Förnamn: ");
-//            customer.FirstName = Console.ReadLine() ?? null!;
-
-//            Console.Write("Efternamn: ");
-//            customer.LastName = Console.ReadLine() ?? null!;
-
-//            Console.Write("E-postadress: ");
-//            customer.Email = Console.ReadLine() ?? null!;
-
-//            Console.Write("Telefonnummer: ");
-//            customer.PhoneNumber = Console.ReadLine() ?? null!;
-
-//            Console.Write("Gatuadress: ");
-//            customer.StreetName = Console.ReadLine() ?? null!;
-
-//            Console.Write("Postnummer: ");
-//            customer.PostalCode = Console.ReadLine() ?? null!;
-
-//            Console.Write("Stad: ");
-//            customer.City = Console.ReadLine() ?? null!;
-
-//            Console.Write("Change Status: ");
-//            var answer = Console.ReadLine();
-//            if (answer == "1")
-//            {
-//                customer.Status = "Öppnad";
-//            }
-//            if (answer == "2")
-//            {
-//                customer.Status = "Stängd";
-//            }
-
-
-//            //update specific customer from database
-//            await DbService.UpdateAsync(customer);
-//        }
-//        else
-//        {
-//            Console.WriteLine($"Hittade inte någon kund med den angivna e-postadressen.");
-//            Console.WriteLine("");
-//        }

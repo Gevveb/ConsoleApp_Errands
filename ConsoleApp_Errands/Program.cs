@@ -12,7 +12,7 @@ while (Ended)
     Console.WriteLine("1. Create a new case");
     Console.WriteLine("2. Show all cases");
     Console.WriteLine("3. Show a specific case");
-    Console.WriteLine("4. Ppen and comment on the case/ update the case");
+    Console.WriteLine("4. Open and comment on the case/ update the case");
     Console.WriteLine("5. Delete a specific case");
     Console.WriteLine("6. Close the app");
 

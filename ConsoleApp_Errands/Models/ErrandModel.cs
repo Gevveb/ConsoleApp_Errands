@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace ConsoleApp_Errands.Models
 {
     internal class ErrandModel
@@ -37,11 +31,5 @@ namespace ConsoleApp_Errands.Models
         public string Status { get; set; } = null!;
     }
 
-    //public enum Statuses
-    //{
-    //    Unopened,
-    //    Ongoing,
-    //    Done
-    //}
 }
 
